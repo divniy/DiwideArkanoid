@@ -26,7 +26,7 @@ namespace Diwide.Arkanoid
     ""name"": ""PlayerControls"",
     ""maps"": [
         {
-            ""name"": ""Player1"",
+            ""name"": ""gameplay"",
             ""id"": ""e41c36f9-89a3-4f94-b89e-90bd5f6120b4"",
             ""actions"": [
                 {
@@ -50,9 +50,9 @@ namespace Diwide.Arkanoid
             ],
             ""bindings"": [
                 {
-                    ""name"": ""2D Vector"",
+                    ""name"": ""Letters"",
                     ""id"": ""4bda6a6d-8ad6-4281-bbbc-460484989fe0"",
-                    ""path"": ""2DVector"",
+                    ""path"": ""2DVector(mode=2)"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -66,7 +66,7 @@ namespace Diwide.Arkanoid
                     ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Player1"",
                     ""action"": ""move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -77,7 +77,7 @@ namespace Diwide.Arkanoid
                     ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Player1"",
                     ""action"": ""move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -88,7 +88,7 @@ namespace Diwide.Arkanoid
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Player1"",
                     ""action"": ""move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -99,7 +99,62 @@ namespace Diwide.Arkanoid
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
+                    ""groups"": ""Player1"",
+                    ""action"": ""move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Arrows"",
+                    ""id"": ""c8f9184c-8e6c-4471-bad4-faf415c56a36"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
                     ""groups"": """",
+                    ""action"": ""move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""dc3cd6ba-a28b-499e-997c-4433faba8fd3"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Player2"",
+                    ""action"": ""move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""5304e986-9bcd-457e-9af4-4814d69225dc"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Player2"",
+                    ""action"": ""move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""3d406d59-8859-4f69-b5e5-0b8b72c29ee6"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Player2"",
+                    ""action"": ""move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""de709880-a3a5-4895-a0ee-1df025abf5ae"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Player2"",
                     ""action"": ""move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -118,12 +173,35 @@ namespace Diwide.Arkanoid
             ]
         }
     ],
-    ""controlSchemes"": []
+    ""controlSchemes"": [
+        {
+            ""name"": ""Player1"",
+            ""bindingGroup"": ""Player1"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<Keyboard>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Player2"",
+            ""bindingGroup"": ""Player2"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<Keyboard>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
+        }
+    ]
 }");
-            // Player1
-            m_Player1 = asset.FindActionMap("Player1", throwIfNotFound: true);
-            m_Player1_move = m_Player1.FindAction("move", throwIfNotFound: true);
-            m_Player1_start = m_Player1.FindAction("start", throwIfNotFound: true);
+            // gameplay
+            m_gameplay = asset.FindActionMap("gameplay", throwIfNotFound: true);
+            m_gameplay_move = m_gameplay.FindAction("move", throwIfNotFound: true);
+            m_gameplay_start = m_gameplay.FindAction("start", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -182,26 +260,26 @@ namespace Diwide.Arkanoid
             return asset.FindBinding(bindingMask, out action);
         }
 
-        // Player1
-        private readonly InputActionMap m_Player1;
-        private List<IPlayer1Actions> m_Player1ActionsCallbackInterfaces = new List<IPlayer1Actions>();
-        private readonly InputAction m_Player1_move;
-        private readonly InputAction m_Player1_start;
-        public struct Player1Actions
+        // gameplay
+        private readonly InputActionMap m_gameplay;
+        private List<IGameplayActions> m_GameplayActionsCallbackInterfaces = new List<IGameplayActions>();
+        private readonly InputAction m_gameplay_move;
+        private readonly InputAction m_gameplay_start;
+        public struct GameplayActions
         {
             private @PlayerControls m_Wrapper;
-            public Player1Actions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
-            public InputAction @move => m_Wrapper.m_Player1_move;
-            public InputAction @start => m_Wrapper.m_Player1_start;
-            public InputActionMap Get() { return m_Wrapper.m_Player1; }
+            public GameplayActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+            public InputAction @move => m_Wrapper.m_gameplay_move;
+            public InputAction @start => m_Wrapper.m_gameplay_start;
+            public InputActionMap Get() { return m_Wrapper.m_gameplay; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
             public bool enabled => Get().enabled;
-            public static implicit operator InputActionMap(Player1Actions set) { return set.Get(); }
-            public void AddCallbacks(IPlayer1Actions instance)
+            public static implicit operator InputActionMap(GameplayActions set) { return set.Get(); }
+            public void AddCallbacks(IGameplayActions instance)
             {
-                if (instance == null || m_Wrapper.m_Player1ActionsCallbackInterfaces.Contains(instance)) return;
-                m_Wrapper.m_Player1ActionsCallbackInterfaces.Add(instance);
+                if (instance == null || m_Wrapper.m_GameplayActionsCallbackInterfaces.Contains(instance)) return;
+                m_Wrapper.m_GameplayActionsCallbackInterfaces.Add(instance);
                 @move.started += instance.OnMove;
                 @move.performed += instance.OnMove;
                 @move.canceled += instance.OnMove;
@@ -210,7 +288,7 @@ namespace Diwide.Arkanoid
                 @start.canceled += instance.OnStart;
             }
 
-            private void UnregisterCallbacks(IPlayer1Actions instance)
+            private void UnregisterCallbacks(IGameplayActions instance)
             {
                 @move.started -= instance.OnMove;
                 @move.performed -= instance.OnMove;
@@ -220,22 +298,40 @@ namespace Diwide.Arkanoid
                 @start.canceled -= instance.OnStart;
             }
 
-            public void RemoveCallbacks(IPlayer1Actions instance)
+            public void RemoveCallbacks(IGameplayActions instance)
             {
-                if (m_Wrapper.m_Player1ActionsCallbackInterfaces.Remove(instance))
+                if (m_Wrapper.m_GameplayActionsCallbackInterfaces.Remove(instance))
                     UnregisterCallbacks(instance);
             }
 
-            public void SetCallbacks(IPlayer1Actions instance)
+            public void SetCallbacks(IGameplayActions instance)
             {
-                foreach (var item in m_Wrapper.m_Player1ActionsCallbackInterfaces)
+                foreach (var item in m_Wrapper.m_GameplayActionsCallbackInterfaces)
                     UnregisterCallbacks(item);
-                m_Wrapper.m_Player1ActionsCallbackInterfaces.Clear();
+                m_Wrapper.m_GameplayActionsCallbackInterfaces.Clear();
                 AddCallbacks(instance);
             }
         }
-        public Player1Actions @Player1 => new Player1Actions(this);
-        public interface IPlayer1Actions
+        public GameplayActions @gameplay => new GameplayActions(this);
+        private int m_Player1SchemeIndex = -1;
+        public InputControlScheme Player1Scheme
+        {
+            get
+            {
+                if (m_Player1SchemeIndex == -1) m_Player1SchemeIndex = asset.FindControlSchemeIndex("Player1");
+                return asset.controlSchemes[m_Player1SchemeIndex];
+            }
+        }
+        private int m_Player2SchemeIndex = -1;
+        public InputControlScheme Player2Scheme
+        {
+            get
+            {
+                if (m_Player2SchemeIndex == -1) m_Player2SchemeIndex = asset.FindControlSchemeIndex("Player2");
+                return asset.controlSchemes[m_Player2SchemeIndex];
+            }
+        }
+        public interface IGameplayActions
         {
             void OnMove(InputAction.CallbackContext context);
             void OnStart(InputAction.CallbackContext context);

@@ -5,15 +5,10 @@ namespace Diwide.Arkanoid
 {
     public class SmoothMovementDecorator : IPlayerMover
     {
+        [Inject] private IPlayerMover _playerMover;
         [Inject] private float _smoothingSpeed;
-        private IPlayerMover _playerMover;
         private Vector2 currentMove;
         private Vector2 smoothMoveVelocity;
-
-        public SmoothMovementDecorator(IPlayerMover playerMover)
-        {
-            _playerMover = playerMover;
-        }
 
         public void Move(Vector2 input)
         {

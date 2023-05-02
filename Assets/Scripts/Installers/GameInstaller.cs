@@ -7,7 +7,7 @@ namespace Diwide.Arkanoid
     {
         [SerializeField] private GameObject _playerPrefab;
         [SerializeField] private GameObject _ballPrefab;
-        [SerializeField] private Transform[] _playerSpawns;
+        [SerializeField] private GameObject[] _playerSpawns;
         // [SerializeField] private WellHandler[] _wellHandlers;
 
 
@@ -19,7 +19,7 @@ namespace Diwide.Arkanoid
             Container.DeclareSignal<LaunchBallSignal>().OptionalSubscriber();
             Container.DeclareSignal<MissedBallSignal>();
             
-            Container.BindFactory<PlayerFacade, PlayerFacade.Factory>()
+            Container.BindFactory<GameObject, string, PlayerFacade, PlayerFacade.Factory>()
                 .FromSubContainerResolve()
                 .ByNewPrefabInstaller<PlayerInstaller>(_playerPrefab);
 
@@ -27,7 +27,7 @@ namespace Diwide.Arkanoid
                 .FromSubContainerResolve()
                 .ByNewPrefabInstaller<BallInstaller>(_ballPrefab);
 
-            // Container.Bind<WellHandler>().FromComponentsInHierarchy();
+            // Container.Bind<WellHandler>().FromComponentsInHierarchy().AsTransient();
             // Container.BindInstances(_wellHandlers);
 
             // Container.Bind<GameManager>().AsSingle();

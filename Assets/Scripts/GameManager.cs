@@ -9,25 +9,18 @@ namespace Diwide.Arkanoid
 {
     public class GameManager : IInitializable, IDisposable
     {
-        [Inject] private Transform[] _playerSpawns;
-        // [Inject] private WellHandler[] _wellHandlers;
-        // [Inject] private Transform[] _playerSpawns;
+        [Inject] private GameObject[] _playerSpawns;
         [Inject] private PlayerFacade.Factory _playerFactory;
         [Inject] private BallFacade.Factory _ballFactory;
         [Inject] private SignalBus _signalBus;
-        // private PlayerFacade[] _playerFacades;
-        private List<PlayerFacade> _playerFacades = new();
+        private List<PlayerFacade> _playerFacades;
         private BallFacade _ballFacade;
-        // public PlayerFacade[] Players => _playerFacades;
         
         public void Initialize()
         {
-            PlayerFacade p1 = _playerFactory.Create();
-            p1.PlayerInput.SwitchCurrentControlScheme("Player 1", Keyboard.current);
-            p1.transform.SetPositionAndRotation(_playerSpawns[0].position, _playerSpawns[0].rotation);
-            _playerFacades.Add(p1);
-            // _playerFacades.SetValue(p1, 0);
-            // _wellHandlers[0].PlayerFacade = p1;
+            PlayerFacade p1 = _playerFactory.Create(_playerSpawns[0], "Player 1");
+            PlayerFacade p2 = _playerFactory.Create(_playerSpawns[1], "Player 2");
+            _playerFacades = new() { p1, p2 };
 
             _ballFacade = _ballFactory.Create();
             _ballFacade.ResetToPlayer(p1);
@@ -54,7 +47,6 @@ namespace Diwide.Arkanoid
             }
             var player = distances.OrderBy(_ => _.Key).First().Value;
             _ballFacade.ResetToPlayer(player);
-
         }
     }
 }

@@ -23,7 +23,7 @@ namespace Diwide.Arkanoid
             _ballMover.IsMoving = true;
             _signalBus.Unsubscribe<LaunchBallSignal>(Launch);
         }
-        
+
         public class Factory : PlaceholderFactory<BallFacade> { }
     }
 }

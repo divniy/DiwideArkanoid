@@ -25,6 +25,10 @@ namespace Diwide.Arkanoid
                 .FromSubContainerResolve()
                 .ByNewPrefabInstaller<BallInstaller>(_ballPrefab);
 
+            Container.Bind<WellHandler>().FromComponentsInHierarchy();
+
+            Container.Bind<GameManager>().AsSingle();
+            
             Container.BindInterfacesTo<GameInitializer>()
                 .AsSingle()
                 .WithArguments(_playerSpawns)
@@ -33,4 +37,9 @@ namespace Diwide.Arkanoid
     }
     
     public class LaunchBallSignal {}
+
+    public class MissedBallSignal
+    {
+     //   public BallFacade BallFacade;
+    }
 }

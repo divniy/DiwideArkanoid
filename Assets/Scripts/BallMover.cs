@@ -6,8 +6,16 @@ namespace Diwide.Arkanoid
 {
     public class BallMover : MonoBehaviour
     {
-        [SerializeField] private float _speed;
-        public bool IsMoving = false;
+        private float _speed;
+        [SerializeField] private float _launchSpeed;
+        [SerializeField] private float _maxSpeed;
+        [SerializeField] private float _speedIncrement;
+        [HideInInspector] public bool IsMoving = false;
+
+        private void Start()
+        {
+            _speed = _launchSpeed;
+        }
 
         private void Update()
         {
@@ -17,15 +25,21 @@ namespace Diwide.Arkanoid
 
         private void OnCollisionEnter(Collision collision)
         {
-            // IsMoving = false;
             var normal = collision.GetContact(0).normal;
             var reflection = Vector3.Reflect(transform.forward, normal);
-            Debug.Log(transform.forward);
-            Debug.Log(normal);
-            Debug.Log(reflection);
-            transform.rotation = Quaternion.FromToRotation(transform.forward, reflection);
-            // EditorApplication.isPaused = true;
-            // transform.LookAt(reflection);
+            Debug.Log($"Forward: {transform.forward}, Normal: {normal}, Reflect: {reflection}");
+            // transform.rotation = Quaternion.FromToRotation(transform.forward, reflection);
+            transform.rotation = Quaternion.FromToRotation(Vector3.forward, reflection);
+            if (collision.gameObject.CompareTag("Breakable"))
+            {
+                IncreaseSpeed();
+                Destroy(collision.gameObject);
+            }
+        }
+
+        public void IncreaseSpeed()
+        {
+            _speed = Mathf.Clamp(_speed + _speedIncrement, _launchSpeed, _maxSpeed);
         }
 
         // private void OnDrawGizmos()

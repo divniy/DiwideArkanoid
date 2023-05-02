@@ -1,11 +1,13 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Zenject;
 
 namespace Diwide.Arkanoid
 {
     public class PlayerInputHandler : MonoBehaviour
     {
+        [Inject] private SignalBus _signalBus;
         [SerializeField] private float _moveSpeed = 10;
         [SerializeField] private float _smoothMoveSpeed = .3f;
         
@@ -23,9 +25,10 @@ namespace Diwide.Arkanoid
             // m_Move = context.ReadValue<Vector2>();
         // }
 
-        void OnStart()
+        void OnLaunch()
         {
-            Debug.Log("Start button pressed");
+            Debug.Log("Launch button pressed");
+            _signalBus.Fire<LaunchBallSignal>();
         }
 
         private void Update()

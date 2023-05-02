@@ -15,7 +15,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "start",
+                    "name": "launch",
                     "type": "Button",
                     "id": "024a85df-b968-4159-85b9-69fd0bca8b03",
                     "expectedControlType": "Button",
@@ -142,7 +142,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Player 1;Player 2",
-                    "action": "start",
+                    "action": "launch",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

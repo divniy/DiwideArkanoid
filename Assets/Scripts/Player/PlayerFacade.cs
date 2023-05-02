@@ -14,7 +14,7 @@ namespace Diwide.Arkanoid
         }
 
         [Inject]
-        public Transform Transform
+        public Transform transform
         {
             get; private set;
         }

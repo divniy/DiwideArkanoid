@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Zenject;
 
 namespace Diwide.Arkanoid
@@ -19,7 +20,7 @@ namespace Diwide.Arkanoid
             Container.DeclareSignal<LaunchBallSignal>().OptionalSubscriber();
             Container.DeclareSignal<MissedBallSignal>();
             
-            Container.BindFactory<GameObject, string, PlayerFacade, PlayerFacade.Factory>()
+            Container.BindFactory<GameObject, PlayerFacade, PlayerFacade.Factory>()
                 .FromSubContainerResolve()
                 .ByNewPrefabInstaller<PlayerInstaller>(_playerPrefab);
 
@@ -36,6 +37,13 @@ namespace Diwide.Arkanoid
                 .AsSingle()
                 .WithArguments(_playerSpawns)
                 .NonLazy();
+        }
+        
+        // Hijqck PlayerInput to force same device on it!
+        // (Seems like Input System's issue/feature. Needs better workaround. )
+        private void OnPlayerJoined(PlayerInput pi)
+        {
+            pi.SwitchCurrentControlScheme($"Player {pi.playerIndex + 1}", Keyboard.current);
         }
     }
     

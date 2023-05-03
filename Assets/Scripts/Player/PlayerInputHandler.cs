@@ -9,16 +9,10 @@ namespace Diwide.Arkanoid
     {
         [Inject] private SignalBus _signalBus;
         [Inject] private PlayerInput _playerInput;
-        [Inject] private string _inputScheme;
         [Inject] private IPlayerMover _mover;
         
         private Vector2 m_Move = Vector2.zero;
 
-        private void Start()
-        {
-            _playerInput.SwitchCurrentControlScheme(_inputScheme, Keyboard.current);
-        }
-        
         private void Update()
         {
             _mover.Move(m_Move);

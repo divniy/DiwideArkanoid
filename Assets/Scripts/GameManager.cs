@@ -18,8 +18,8 @@ namespace Diwide.Arkanoid
         
         public void Initialize()
         {
-            PlayerFacade p1 = _playerFactory.Create(_playerSpawns[0], "Player 1");
-            PlayerFacade p2 = _playerFactory.Create(_playerSpawns[1], "Player 2");
+            PlayerFacade p1 = _playerFactory.Create(_playerSpawns[0]);
+            PlayerFacade p2 = _playerFactory.Create(_playerSpawns[1]);
             _playerFacades = new() { p1, p2 };
 
             _ballFacade = _ballFactory.Create();

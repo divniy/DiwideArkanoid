@@ -19,6 +19,6 @@ namespace Diwide.Arkanoid
             transform.SetPositionAndRotation(_spawnPoint.transform.position, _spawnPoint.transform.rotation);
         }
         
-        public class Factory : PlaceholderFactory<GameObject, string, PlayerFacade> { }
+        public class Factory : PlaceholderFactory<GameObject, PlayerFacade> { }
     }
 }

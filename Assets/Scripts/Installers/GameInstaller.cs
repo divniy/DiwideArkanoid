@@ -19,6 +19,7 @@ namespace Diwide.Arkanoid
             SignalBusInstaller.Install(Container);
             Container.DeclareSignal<LaunchBallSignal>().OptionalSubscriber();
             Container.DeclareSignal<MissedBallSignal>();
+            Container.DeclareSignal<CollideObstacleSignal>();
             
             Container.BindFactory<GameObject, PlayerFacade, PlayerFacade.Factory>()
                 .FromSubContainerResolve()
@@ -32,6 +33,8 @@ namespace Diwide.Arkanoid
             // Container.BindInstances(_wellHandlers);
 
             // Container.Bind<GameManager>().AsSingle();
+
+            Container.Bind<ObstacleView>().FromComponentsInHierarchy().AsTransient();
             
             Container.BindInterfacesTo<GameManager>()
                 .AsSingle()
@@ -54,4 +57,6 @@ namespace Diwide.Arkanoid
         // public PlayerFacade player;
         //   public BallFacade BallFacade;
     }
+    
+    public class CollideObstacleSignal {}
 }

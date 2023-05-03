@@ -13,21 +13,19 @@ namespace Diwide.Arkanoid
         [Inject] private PlayerFacade.Factory _playerFactory;
         [Inject] private BallFacade.Factory _ballFactory;
         [Inject] private SignalBus _signalBus;
-        private List<PlayerFacade> _playerFacades;
+        private List<PlayerFacade> _playerFacades = new();
         private BallFacade _ballFacade;
         
         public void Initialize()
         {
-            PlayerFacade p1 = _playerFactory.Create(_playerSpawns[0]);
-            PlayerFacade p2 = _playerFactory.Create(_playerSpawns[1]);
-            _playerFacades = new() { p1, p2 };
+            _playerFacades.Add(_playerFactory.Create(_playerSpawns[0]));
+            _playerFacades.Add(_playerFactory.Create(_playerSpawns[1]));
 
             _ballFacade = _ballFactory.Create();
-            _ballFacade.ResetToPlayer(p1);
+            _ballFacade.ResetToPlayer(_playerFacades.First());
 
             _signalBus.Subscribe<MissedBallSignal>(ResetBallToClosestPlayer);
         }
-
 
         public void Dispose()
         {

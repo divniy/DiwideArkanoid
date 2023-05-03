@@ -7,21 +7,20 @@ namespace Diwide.Arkanoid
     {
         [Inject] private BallMover _ballMover;
         [Inject] public Transform transform;
-        [Inject] private SignalBus _signalBus;
 
         public void ResetToPlayer(PlayerFacade playerFacade)
         {
+            _ballMover.StopMoving();
             transform.SetParent(playerFacade.transform, false);
             transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-            _ballMover.IsMoving = false;
-            _signalBus.Subscribe<LaunchBallSignal>(Launch);
         }
 
         public void Launch()
         {
+            if(_ballMover.IsMoving) return;
+            Debug.Log("Launch ball");
             transform.SetParent(null);
-            _ballMover.IsMoving = true;
-            _signalBus.Unsubscribe<LaunchBallSignal>(Launch);
+            _ballMover.StartMoving();
         }
 
         public class Factory : PlaceholderFactory<BallFacade> { }

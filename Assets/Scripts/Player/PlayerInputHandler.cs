@@ -25,7 +25,6 @@ namespace Diwide.Arkanoid
 
         void OnLaunch()
         {
-            Debug.Log("Launch button pressed");
             _signalBus.Fire<LaunchBallSignal>();
         }
     }

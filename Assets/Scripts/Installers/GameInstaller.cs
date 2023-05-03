@@ -29,20 +29,19 @@ namespace Diwide.Arkanoid
                 .FromSubContainerResolve()
                 .ByNewPrefabInstaller<BallInstaller>(_ballPrefab);
 
-            // Container.Bind<WellHandler>().FromComponentsInHierarchy().AsTransient();
-            // Container.BindInstances(_wellHandlers);
-
-            // Container.Bind<GameManager>().AsSingle();
+            Container.Bind<WellHandler>().FromComponentsInHierarchy().AsTransient();
 
             Container.Bind<ObstacleView>().FromComponentsInHierarchy().AsTransient();
             
-            Container.BindInterfacesTo<GameManager>()
+            Container.BindInterfacesAndSelfTo<GameManager>()
                 .AsSingle()
                 .WithArguments(_playerSpawns)
                 .NonLazy();
+            Container.BindSignal<MissedBallSignal>()
+                .ToMethod<GameManager>(_ => _.OnBallMissing).FromResolve();
         }
         
-        // Hijqck PlayerInput to force same device on it!
+        // Hijqck PlayerInput to force single device on it!
         // (Seems like Input System's issue/feature. Needs better workaround. )
         private void OnPlayerJoined(PlayerInput pi)
         {
@@ -51,12 +50,6 @@ namespace Diwide.Arkanoid
     }
     
     public class LaunchBallSignal {}
-
-    public class MissedBallSignal
-    {
-        // public PlayerFacade player;
-        //   public BallFacade BallFacade;
-    }
-    
+    public class MissedBallSignal { }
     public class CollideObstacleSignal {}
 }

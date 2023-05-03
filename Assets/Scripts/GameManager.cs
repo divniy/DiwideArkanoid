@@ -34,16 +34,8 @@ namespace Diwide.Arkanoid
 
         public void ResetBallToClosestPlayer()
         {
-            Dictionary<float, PlayerFacade> distances = new();
-            
-            foreach (var playerFacade in _playerFacades)
-            {
-                var playerBallDistance =
-                    (playerFacade.transform.position - _ballFacade.transform.position).sqrMagnitude;
-                    // Vector3.SqrMagnitude(playerFacade.transform.position - _ballFacade.transform.position);
-                distances.Add(playerBallDistance, playerFacade);
-            }
-            var player = distances.OrderBy(_ => _.Key).First().Value;
+            var player = _playerFacades
+                .OrderBy(_ => (_.transform.position - _ballFacade.transform.position).sqrMagnitude).First();
             _ballFacade.ResetToPlayer(player);
         }
     }

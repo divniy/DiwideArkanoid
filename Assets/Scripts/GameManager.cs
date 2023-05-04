@@ -27,6 +27,8 @@ namespace Diwide.Arkanoid
 
             _ballFacade = _ballFactory.Create();
             _ballFacade.ResetToPlayer(_playerFacades.First());
+            
+            _levelManager.InitLevel(0);
         }
 
         public void OnBallMissing()

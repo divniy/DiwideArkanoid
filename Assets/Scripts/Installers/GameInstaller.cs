@@ -46,7 +46,7 @@ namespace Diwide.Arkanoid
             Container.BindSignal<MissedBallSignal>()
                 .ToMethod<GameManager>(_ => _.OnBallMissing).FromResolve();
 
-            Container.BindInterfacesAndSelfTo<LevelManager>().AsSingle();
+            Container.Bind<LevelManager>().AsSingle();
             Container.BindSignal<LevelCompleteSignal>()
                 .ToMethod<GameManager>((c, s) =>
                 {

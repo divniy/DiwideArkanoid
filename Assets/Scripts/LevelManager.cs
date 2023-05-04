@@ -7,7 +7,7 @@ using Zenject;
 
 namespace Diwide.Arkanoid
 {
-    public class LevelManager : IInitializable
+    public class LevelManager
     {
         [Inject] private LevelProperties[] _levels;
         [Inject] private ObstacleView.Pool _pool;
@@ -15,16 +15,11 @@ namespace Diwide.Arkanoid
         [Inject] private List<ObstacleView> _obstacleViews;
         [Inject] private SignalBus _signalBus;
 
-        public void Initialize()
-        {
-            InitLevel(0);
-        }
-        
         public void InitLevel(int index)
         {
             if(_levels.Length == 0) return;
             if (_levels[index] == null) throw new ApplicationException("Error init unexistent level");
-            Debug.Log($"Init {index} level");
+            Debug.Log($"Init {index + 1} level");
             foreach (Vector3 position in _levels[index].obstaclePositions)
             {
                 SpawnObstacle(position);
@@ -54,7 +49,7 @@ namespace Diwide.Arkanoid
 
         private void NothingObstaclesLeft()
         {
-            Debug.Log($"Level {_currentLevelIndex} complete");
+            Debug.Log($"Level {_currentLevelIndex + 1} complete");
             if (_currentLevelIndex + 1 < _levels.Length)
             {
                 _signalBus.Fire(new LevelCompleteSignal() { index = _currentLevelIndex });

@@ -7,10 +7,11 @@ public class SettingsInstaller : ScriptableObjectInstaller<SettingsInstaller>
 {
     public GameManager.Settings GameSettings;
     public PlayerInstaller.Settings PlayerSettings;
-    
+    public LevelProperties[] Levels;
     public override void InstallBindings()
     {
         Container.BindInstance(GameSettings);
         Container.BindInstance(PlayerSettings);
+        Container.BindInstance(Levels);
     }
 }

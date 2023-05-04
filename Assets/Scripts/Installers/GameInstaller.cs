@@ -8,6 +8,7 @@ namespace Diwide.Arkanoid
     {
         [SerializeField] private GameObject _playerPrefab;
         [SerializeField] private GameObject _ballPrefab;
+        [SerializeField] private GameObject _obstaclePrefab;
         [SerializeField] private GameObject[] _playerSpawns;
         // [SerializeField] private WellHandler[] _wellHandlers;
 
@@ -20,6 +21,8 @@ namespace Diwide.Arkanoid
             Container.DeclareSignal<LaunchBallSignal>().OptionalSubscriber();
             Container.DeclareSignal<MissedBallSignal>();
             Container.DeclareSignal<CollideObstacleSignal>();
+            Container.DeclareSignal<LevelCompleteSignal>();
+            Container.DeclareSignal<GameCompleteSignal>();
             
             Container.BindFactory<GameObject, PlayerFacade, PlayerFacade.Factory>()
                 .FromSubContainerResolve()
@@ -32,6 +35,9 @@ namespace Diwide.Arkanoid
             Container.Bind<WellHandler>().FromComponentsInHierarchy().AsTransient();
 
             Container.Bind<ObstacleView>().FromComponentsInHierarchy().AsTransient();
+
+            Container.BindMemoryPool<ObstacleView, ObstacleView.Pool>()
+                .WithInitialSize(3).FromComponentInNewPrefab(_obstaclePrefab).UnderTransformGroup("Obstacles");
             
             Container.BindInterfacesAndSelfTo<GameManager>()
                 .AsSingle()
@@ -39,6 +45,15 @@ namespace Diwide.Arkanoid
                 .NonLazy();
             Container.BindSignal<MissedBallSignal>()
                 .ToMethod<GameManager>(_ => _.OnBallMissing).FromResolve();
+
+            Container.BindInterfacesAndSelfTo<LevelManager>().AsSingle();
+            Container.BindSignal<LevelCompleteSignal>()
+                .ToMethod<GameManager>((c, s) =>
+                {
+                    c.OnLevelComplete(s.index);
+                }).FromResolve();
+            Container.BindSignal<GameCompleteSignal>()
+                .ToMethod<GameManager>(_ => _.GameComplete).FromResolve();
         }
         
         // Hijqck PlayerInput to force single device on it!
@@ -52,4 +67,9 @@ namespace Diwide.Arkanoid
     public class LaunchBallSignal {}
     public class MissedBallSignal { }
     public class CollideObstacleSignal {}
+    public class LevelCompleteSignal
+    {
+        public int index;
+    }
+    public class GameCompleteSignal {}
 }

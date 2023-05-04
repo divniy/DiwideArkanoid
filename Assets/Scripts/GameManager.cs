@@ -8,12 +8,13 @@ using Zenject;
 
 namespace Diwide.Arkanoid
 {
-    public class GameManager : IInitializable, IDisposable
+    public class GameManager : IInitializable
     {
         [Inject] private Settings _settings;
         [Inject] private GameObject[] _playerSpawns;
         [Inject] private PlayerFacade.Factory _playerFactory;
         [Inject] private BallFacade.Factory _ballFactory;
+        [Inject] private LevelManager _levelManager;
         private List<PlayerFacade> _playerFacades = new();
         private BallFacade _ballFacade;
         private int _lifesCounter;
@@ -28,15 +29,12 @@ namespace Diwide.Arkanoid
             _ballFacade.ResetToPlayer(_playerFacades.First());
         }
 
-        public void Dispose()
-        {
-        }
-
         public void OnBallMissing()
         {
             if (_lifesCounter > 1)
             {
                 _lifesCounter--;
+                Debug.Log($"Ball was passed away. You only have {_lifesCounter} tries to win.");
                 ResetBallToClosestPlayer();
             }
             else
@@ -45,15 +43,26 @@ namespace Diwide.Arkanoid
             }
         }
 
+        public void OnLevelComplete(int levelIndex)
+        {
+            ResetBallToClosestPlayer();
+            _levelManager.InitLevel(levelIndex + 1);
+        }
+
+        public void GameComplete()
+        {
+            Debug.Log("Game is over. Unsuccessfully - you win it.");
+            EditorApplication.isPaused = true;
+        }
+
         private void GameOver()
         {
             Debug.Log("Game is over. After all - you lose. As expected, so.");
             EditorApplication.isPaused = true;
         }
 
-        public void ResetBallToClosestPlayer()
+        private void ResetBallToClosestPlayer()
         {
-            Debug.Log($"Ball was passed away. You only have {_lifesCounter} tries to win.");
             var player = _playerFacades
                 .OrderBy(_ => (_.transform.position - _ballFacade.transform.position).sqrMagnitude).First();
             _ballFacade.ResetToPlayer(player);

@@ -11,7 +11,7 @@ namespace Diwide.Arkanoid
     public class GameManager : IInitializable
     {
         [Inject] private Settings _settings;
-        [Inject] private GameObject[] _playerSpawns;
+        [Inject] private PlayerSpawn[] _playerSpawns;
         [Inject] private PlayerFacade.Factory _playerFactory;
         [Inject] private BallFacade.Factory _ballFactory;
         [Inject] private LevelManager _levelManager;

@@ -7,11 +7,13 @@ namespace Diwide.Arkanoid
     {
         public override void InstallBindings()
         {
-            Container.Bind<BallFacade>().AsSingle();
+            Container.BindInterfacesAndSelfTo<BallFacade>().AsSingle();
             Container.BindSignal<LaunchBallSignal>()
                 .ToMethod<BallFacade>(x=>x.Launch).FromResolve();
             
             Container.Bind<Transform>().FromComponentOnRoot();
+            Container.Bind<MeshRenderer>().FromComponentOnRoot();
+            // Container.Bind<Color>().FromResolveGetter<MeshRenderer>(_ => _.material.color);
             Container.Bind<BallMover>().FromComponentOnRoot();
             
             Container.BindSignal<CollideObstacleSignal>()

@@ -7,10 +7,8 @@ namespace Diwide.Arkanoid
 {
     public class BallMover : MonoBehaviour
     {
+        [Inject] private Settings _settings;
         private float _speed;
-        [SerializeField] private float _launchSpeed;
-        [SerializeField] private float _maxSpeed;
-        [SerializeField] private float _speedIncrement;
         [HideInInspector] public bool IsMoving { get; private set; }
 
         public void StartMoving()
@@ -45,12 +43,12 @@ namespace Diwide.Arkanoid
 
         public void ResetSpeed()
         {
-            _speed = _launchSpeed;
+            _speed = _settings.launchSpeed;
         }
         public void IncreaseSpeed()
         {
             Debug.Log("Ball speed increased");
-            _speed = Mathf.Clamp(_speed + _speedIncrement, _launchSpeed, _maxSpeed);
+            _speed = Mathf.Clamp(_speed + _settings.speedIncrement,_settings.launchSpeed, _settings.maxSpeed);
         }
 
         // private void OnDrawGizmos()
@@ -58,5 +56,12 @@ namespace Diwide.Arkanoid
             // Gizmos.color = Color.red;
             // Gizmos.DrawLine(transform.position, transform.forward);
         // }
+        [Serializable]
+        public class Settings
+        {
+            public float launchSpeed;
+            public float maxSpeed;
+            public float speedIncrement;
+        }
     }
 }

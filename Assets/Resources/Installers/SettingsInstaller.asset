@@ -17,6 +17,10 @@ MonoBehaviour:
   PlayerSettings:
     moveSpeed: 10
     smoothingSpeed: 0.3
+  BallSettings:
+    launchSpeed: 10
+    maxSpeed: 30
+    speedIncrement: 4
   Levels:
   - {fileID: 11400000, guid: e6f961207dd2741ed93d9aca12b96af7, type: 2}
   - {fileID: 11400000, guid: daa8ad0f870e442e79024208fc65ec3d, type: 2}

@@ -6,7 +6,7 @@ namespace Diwide.Arkanoid
 {
     public class PlayerFacade : IInitializable
     {
-        [Inject] private GameObject _spawnPoint;
+        [Inject] private PlayerSpawn _spawnPoint;
 
         [Inject]
         public Transform transform
@@ -19,6 +19,6 @@ namespace Diwide.Arkanoid
             transform.SetPositionAndRotation(_spawnPoint.transform.position, _spawnPoint.transform.rotation);
         }
         
-        public class Factory : PlaceholderFactory<GameObject, PlayerFacade> { }
+        public class Factory : PlaceholderFactory<PlayerSpawn, PlayerFacade> { }
     }
 }

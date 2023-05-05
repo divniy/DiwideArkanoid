@@ -9,11 +9,7 @@ namespace Diwide.Arkanoid
         [SerializeField] private GameObject _playerPrefab;
         [SerializeField] private GameObject _ballPrefab;
         [SerializeField] private GameObject _obstaclePrefab;
-        [SerializeField] private GameObject[] _playerSpawns;
-        // [SerializeField] private WellHandler[] _wellHandlers;
-
-
-        // [SerializeField] private GameObject _player2Spawn;
+        [SerializeField] private PlayerSpawn[] _playerSpawns;
 
         public override void InstallBindings()
         {
@@ -23,8 +19,10 @@ namespace Diwide.Arkanoid
             Container.DeclareSignal<CollideObstacleSignal>();
             Container.DeclareSignal<LevelCompleteSignal>();
             Container.DeclareSignal<GameCompleteSignal>();
+
+            Container.BindInstance(_playerSpawns);
             
-            Container.BindFactory<GameObject, PlayerFacade, PlayerFacade.Factory>()
+            Container.BindFactory<PlayerSpawn, PlayerFacade, PlayerFacade.Factory>()
                 .FromSubContainerResolve()
                 .ByNewPrefabInstaller<PlayerInstaller>(_playerPrefab);
 
@@ -41,7 +39,6 @@ namespace Diwide.Arkanoid
             
             Container.BindInterfacesAndSelfTo<GameManager>()
                 .AsSingle()
-                .WithArguments(_playerSpawns)
                 .NonLazy();
             Container.BindSignal<MissedBallSignal>()
                 .ToMethod<GameManager>(_ => _.OnBallMissing).FromResolve();

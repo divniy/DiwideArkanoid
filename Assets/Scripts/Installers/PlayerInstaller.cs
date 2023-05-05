@@ -8,10 +8,11 @@ namespace Diwide.Arkanoid
     public class PlayerInstaller : Installer<PlayerInstaller>
     {
         [Inject] private Settings _settings;
-        [Inject] private GameObject _spawnPoint;
+        [Inject] private PlayerSpawn _spawnPoint;
         
         public override void InstallBindings()
         {
+            Container.BindInstance(_spawnPoint);
             Container.BindInterfacesAndSelfTo<PlayerFacade>().AsSingle().WithArguments(_spawnPoint);
             Container.Bind<Transform>().FromComponentOnRoot();
             Container.Bind<PlayerInput>().FromComponentOnRoot();

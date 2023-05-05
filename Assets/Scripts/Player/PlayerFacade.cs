@@ -4,21 +4,21 @@ using Zenject;
 
 namespace Diwide.Arkanoid
 {
-    public class PlayerFacade
+    public class PlayerFacade : IInitializable
     {
-        public PlayerInput PlayerInput;
-        
-        public PlayerFacade(PlayerInput playerInput)
-        {
-            PlayerInput = playerInput;
-        }
+        [Inject] private GameObject _spawnPoint;
 
         [Inject]
-        public Transform Transform
+        public Transform transform
         {
             get; private set;
         }
+
+        public void Initialize()
+        {
+            transform.SetPositionAndRotation(_spawnPoint.transform.position, _spawnPoint.transform.rotation);
+        }
         
-        public class Factory : PlaceholderFactory<PlayerFacade> { }
+        public class Factory : PlaceholderFactory<GameObject, PlayerFacade> { }
     }
 }

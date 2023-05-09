@@ -19,6 +19,7 @@ namespace Diwide.Arkanoid
             Container.DeclareSignal<CollideObstacleSignal>();
             Container.DeclareSignal<LevelCompleteSignal>();
             Container.DeclareSignal<GameCompleteSignal>();
+            Container.DeclareSignal<LifesCountChange>();
 
             Container.BindInstance(_playerSpawns);
             
@@ -36,6 +37,8 @@ namespace Diwide.Arkanoid
 
             Container.BindMemoryPool<ObstacleView, ObstacleView.Pool>()
                 .WithInitialSize(3).FromComponentInNewPrefab(_obstaclePrefab).UnderTransformGroup("Obstacles");
+
+            Container.Bind<GameModel>().FromNew().AsSingle();
             
             Container.BindInterfacesAndSelfTo<GameManager>()
                 .AsSingle()
@@ -64,6 +67,11 @@ namespace Diwide.Arkanoid
     public class LaunchBallSignal {}
     public class MissedBallSignal { }
     public class CollideObstacleSignal {}
+
+    public class LifesCountChange
+    {
+        public int NewValue;
+    }
     public class LevelCompleteSignal
     {
         public int index;

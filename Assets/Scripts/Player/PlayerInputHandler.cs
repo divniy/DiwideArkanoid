@@ -10,6 +10,7 @@ namespace Diwide.Arkanoid
         [Inject] private SignalBus _signalBus;
         [Inject] private PlayerInput _playerInput;
         [Inject] private IPlayerMover _mover;
+        [Inject] private GameModel _game;
         
         private Vector2 m_Move = Vector2.zero;
 
@@ -25,7 +26,13 @@ namespace Diwide.Arkanoid
 
         void OnLaunch()
         {
+            if(_game.isPaused) return;
             _signalBus.Fire<LaunchBallSignal>();
+        }
+
+        void OnPause()
+        {
+            _signalBus.Fire(new GamePausedSignal(){isPaused = !_game.isPaused});
         }
     }
 }

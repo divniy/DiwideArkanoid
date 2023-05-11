@@ -10,7 +10,7 @@ namespace Diwide.Arkanoid
 {
     public class GameManager : IInitializable
     {
-        [Inject] private GameManager.Settings _settings;
+        [Inject] private Settings _settings;
         [Inject] private PlayerSpawn[] _playerSpawns;
         [Inject] private PlayerFacade.Factory _playerFactory;
         [Inject] private BallFacade.Factory _ballFactory;
@@ -61,6 +61,12 @@ namespace Diwide.Arkanoid
         {
             Debug.Log("Game is over. After all - you lose. As expected, so.");
             EditorApplication.isPaused = true;
+        }
+
+        public void SetPause(bool active)
+        {
+            _gameModel.SetPause(active);
+            Time.timeScale = active ? 0 : 1;
         }
 
         private void ResetBallToClosestPlayer()

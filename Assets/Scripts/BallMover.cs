@@ -8,7 +8,8 @@ namespace Diwide.Arkanoid
     public class BallMover : MonoBehaviour
     {
         [Inject] private Settings _settings;
-        private float _speed;
+        [Inject] private Rigidbody _rigidbody;
+        [SerializeField, Range(5, 40)] private float _speed;
         [HideInInspector] public bool IsMoving { get; private set; }
 
         public void StartMoving()
@@ -22,21 +23,22 @@ namespace Diwide.Arkanoid
             IsMoving = false;
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             if(IsMoving) _move();
         }
 
         private void _move()
         {
-            transform.position += transform.forward * _speed * Time.deltaTime;
+            // transform.position += transform.forward * _speed * Time.deltaTime;
+            _rigidbody.velocity = transform.forward * _speed;
         }
 
         private void OnCollisionEnter(Collision collision)
         {
             var normal = collision.GetContact(0).normal;
             var reflection = Vector3.Reflect(transform.forward, normal);
-            
+
             Debug.Log($"Forward: {transform.forward}, Normal: {normal}, Reflect: {reflection}");
             transform.rotation = Quaternion.FromToRotation(Vector3.forward, reflection);
         }

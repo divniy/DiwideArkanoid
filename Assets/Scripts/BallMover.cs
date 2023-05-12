@@ -8,9 +8,9 @@ namespace Diwide.Arkanoid
     public class BallMover : MonoBehaviour
     {
         [Inject] private Settings _settings;
-        [Inject] private Rigidbody _rigidbody;
+        // [Inject] private Rigidbody _rigidbody;
         [SerializeField, Range(5, 40)] private float _speed;
-        [HideInInspector] public bool IsMoving { get; private set; }
+        [field:SerializeField] public bool IsMoving { get; private set; }
 
         public void StartMoving()
         {
@@ -30,8 +30,8 @@ namespace Diwide.Arkanoid
 
         private void _move()
         {
-            // transform.position += transform.forward * _speed * Time.deltaTime;
-            _rigidbody.velocity = transform.forward * _speed;
+            transform.position += transform.forward * _speed * Time.deltaTime;
+            // _rigidbody.velocity = transform.forward * _speed;
         }
 
         private void OnCollisionEnter(Collision collision)

@@ -5,12 +5,12 @@ namespace Diwide.Arkanoid.UI
 {
     public class MainMenu : MonoBehaviour
     {
-        public void PlayGame()
+        public virtual void OnPlayGame()
         {
             SceneManager.LoadScene("MainScene");
         }
         
-        public void ExitGame()
+        public virtual void OnExitGame()
         {
             #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;

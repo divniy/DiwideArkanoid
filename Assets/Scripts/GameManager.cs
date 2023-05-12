@@ -21,6 +21,7 @@ namespace Diwide.Arkanoid
 
         public void Initialize()
         {
+            Debug.Log("GameManager Initialize");
             _playerFacades.Add(_playerFactory.Create(_playerSpawns[0]));
             _playerFacades.Add(_playerFactory.Create(_playerSpawns[1]));
             _gameModel.LifesCounter = _settings.PlayerLifesCount;
@@ -29,6 +30,7 @@ namespace Diwide.Arkanoid
             _ballFacade.ResetToPlayer(_playerFacades.First());
             
             _levelManager.InitLevel(0);
+            SetPause(false);
         }
 
         public void OnBallMissing()

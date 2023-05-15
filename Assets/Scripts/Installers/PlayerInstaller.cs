@@ -1,4 +1,5 @@
 using System;
+using Diwide.Arkanoid.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Zenject;
@@ -20,6 +21,10 @@ namespace Diwide.Arkanoid
             // Container.BindInstance(_inputScheme).WhenInjectedInto<PlayerInputHandler>();
             Container.Bind<IPlayerMover>().To<PlayerController>().AsSingle().WithArguments(_settings.moveSpeed);
             Container.Decorate<IPlayerMover>().With<SmoothMovementDecorator>().WithArguments(_settings.smoothingSpeed);
+            Container.Bind<HealthBar>().FromComponentInHierarchy().AsSingle();
+            Container.BindSignal<LifesCountChange>()
+                .ToMethod<HealthBar>((c, s) => { c.OnLifesCountChange(s.NewValue);})
+                .FromResolve();
         }
         
         [Serializable]

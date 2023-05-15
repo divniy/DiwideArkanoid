@@ -18,8 +18,8 @@ MonoBehaviour:
     moveSpeed: 15
     smoothingSpeed: 0.3
   BallSettings:
-    launchSpeed: 20
-    maxSpeed: 30
+    launchSpeed: 15
+    maxSpeed: 50
     speedIncrement: 2
   Levels:
   - {fileID: 11400000, guid: e6f961207dd2741ed93d9aca12b96af7, type: 2}

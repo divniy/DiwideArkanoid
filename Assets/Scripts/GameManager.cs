@@ -15,28 +15,30 @@ namespace Diwide.Arkanoid
         [Inject] private PlayerFacade.Factory _playerFactory;
         [Inject] private BallFacade.Factory _ballFactory;
         [Inject] private LevelManager _levelManager;
+        [Inject] private readonly GameModel _gameModel;
         private List<PlayerFacade> _playerFacades = new();
         private BallFacade _ballFacade;
-        private int _lifesCounter;
-        
+
         public void Initialize()
         {
-            _lifesCounter = _settings.PlayerLifesCount;
+            Debug.Log("GameManager Initialize");
             _playerFacades.Add(_playerFactory.Create(_playerSpawns[0]));
             _playerFacades.Add(_playerFactory.Create(_playerSpawns[1]));
+            _gameModel.LifesCounter = _settings.PlayerLifesCount;
 
             _ballFacade = _ballFactory.Create();
             _ballFacade.ResetToPlayer(_playerFacades.First());
             
             _levelManager.InitLevel(0);
+            SetPause(false);
         }
 
         public void OnBallMissing()
         {
-            if (_lifesCounter > 1)
+            _gameModel.LifesCounter--;
+            if (_gameModel.LifesCounter > 0)
             {
-                _lifesCounter--;
-                Debug.Log($"Ball was passed away. You only have {_lifesCounter} tries to win.");
+                Debug.Log($"Ball was passed away. You only have {_gameModel.LifesCounter} tries to win.");
                 ResetBallToClosestPlayer();
             }
             else
@@ -61,6 +63,12 @@ namespace Diwide.Arkanoid
         {
             Debug.Log("Game is over. After all - you lose. As expected, so.");
             EditorApplication.isPaused = true;
+        }
+
+        public void SetPause(bool active)
+        {
+            _gameModel.SetPause(active);
+            Time.timeScale = active ? 0 : 1;
         }
 
         private void ResetBallToClosestPlayer()

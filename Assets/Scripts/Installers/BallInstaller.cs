@@ -13,7 +13,7 @@ namespace Diwide.Arkanoid
             
             Container.Bind<Transform>().FromComponentOnRoot();
             Container.Bind<MeshRenderer>().FromComponentOnRoot();
-            // Container.Bind<Color>().FromResolveGetter<MeshRenderer>(_ => _.material.color);
+            Container.Bind<Rigidbody>().FromComponentOnRoot();
             Container.Bind<BallMover>().FromComponentOnRoot();
             
             Container.BindSignal<CollideObstacleSignal>()

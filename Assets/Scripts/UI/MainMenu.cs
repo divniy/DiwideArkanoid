@@ -15,6 +15,7 @@ namespace Diwide.Arkanoid.UI
             #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
             #endif
+            Debug.Log("Exit game");
             Application.Quit();
         }
     }

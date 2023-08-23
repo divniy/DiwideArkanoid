@@ -24,6 +24,7 @@ namespace Diwide.Arkanoid.UI
 
         public void Initialize()
         {
+            Debug.Log("Game started");
             foreach (var hidden in _menuAnimators.FindAll(_=> !_.isActiveAndEnabled))
             {
                 hidden.transform.localScale = Vector3.zero;

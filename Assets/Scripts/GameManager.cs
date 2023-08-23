@@ -56,13 +56,13 @@ namespace Diwide.Arkanoid
         public void GameComplete()
         {
             Debug.Log("Game is over. Unsuccessfully - you win it.");
-            EditorApplication.isPaused = true;
+            StopGame();
         }
 
         private void GameOver()
         {
             Debug.Log("Game is over. After all - you lose. As expected, so.");
-            EditorApplication.isPaused = true;
+            StopGame();
         }
 
         public void SetPause(bool active)
@@ -76,6 +76,15 @@ namespace Diwide.Arkanoid
             var player = _playerFacades
                 .OrderBy(_ => (_.transform.position - _ballFacade.transform.position).sqrMagnitude).First();
             _ballFacade.ResetToPlayer(player);
+        }
+
+        private void StopGame()
+        {
+            #if UNITY_EDITOR
+                EditorApplication.isPaused = true;
+            #else
+                Application.Quit();
+            #endif
         }
         
         [Serializable]
